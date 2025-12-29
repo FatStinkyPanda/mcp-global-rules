@@ -2,6 +2,13 @@
 
 > Auto-copy this to `.agent/` or your AI agent's rules directory
 
+## IMPORTANT: Python Command
+
+Use `python3` on Linux/Mac or `python` on Windows:
+```bash
+python3 mcp-global-rules/mcp.py <command>
+```
+
 ## CORE PRINCIPLES
 
 ### Fix Properly, Never Disable
@@ -19,18 +26,18 @@ Do NOT use emojis or icons in any code unless explicitly requested by the user o
 ### "dev" - Autonomous Development
 
 When user says only **"dev"**:
-1. Load context: `mcp autocontext`
+1. Load context: `python3 mcp-global-rules/mcp.py autocontext`
 2. Read README.md (single source of truth)
-3. Identify tasks: `mcp todos`
+3. Identify tasks: `python3 mcp-global-rules/mcp.py todos`
 4. Find gaps in implementation
 5. Continue development AUTONOMOUSLY - no human intervention
 
 ### "go" - Context and Suggestions
 
 When user says only **"go"**:
-1. Load context: `mcp autocontext`
+1. Load context: `python3 mcp-global-rules/mcp.py autocontext`
 2. Read README.md (single source of truth)
-3. Identify tasks: `mcp todos`
+3. Identify tasks: `python3 mcp-global-rules/mcp.py todos`
 4. **STOP - DO NOT make changes**
 5. Present suggestions and wait for user direction
 
@@ -40,29 +47,29 @@ When user says only **"go"**:
 
 1. **Before ANY coding task**, run:
    ```bash
-   python mcp-global-rules/mcp.py autocontext
+   python3 mcp-global-rules/mcp.py autocontext
    ```
 
 2. **Before modifying a file**, check impact:
    ```bash
-   python mcp-global-rules/mcp.py impact <file>
-   python mcp-global-rules/mcp.py predict-bugs <file>
+   python3 mcp-global-rules/mcp.py impact <file>
+   python3 mcp-global-rules/mcp.py predict-bugs <file>
    ```
 
 3. **After making changes**, verify:
    ```bash
-   python mcp-global-rules/mcp.py review <file>
-   python mcp-global-rules/mcp.py security <file>
+   python3 mcp-global-rules/mcp.py review <file>
+   python3 mcp-global-rules/mcp.py security <file>
    ```
 
 4. **Remember important decisions**:
    ```bash
-   python mcp-global-rules/mcp.py remember "<key>" "<value>"
+   python3 mcp-global-rules/mcp.py remember "<key>" "<value>"
    ```
 
 5. **Recall prior knowledge**:
    ```bash
-   python mcp-global-rules/mcp.py recall "<query>"
+   python3 mcp-global-rules/mcp.py recall "<query>"
    ```
 
 ---

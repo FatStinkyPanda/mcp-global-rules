@@ -4,6 +4,20 @@
 
 ---
 
+## IMPORTANT: Python Command
+
+Use `python3` on Linux/Mac or `python` on Windows. If one fails, try the other:
+
+```bash
+# Linux/Mac
+python3 mcp-global-rules/mcp.py <command>
+
+# Windows
+python mcp-global-rules/mcp.py <command>
+```
+
+---
+
 ## CORE PRINCIPLES
 
 ### Fix Properly, Never Disable
@@ -24,8 +38,8 @@ When the user says only **"dev"**, you MUST:
 
 1. **Obtain Project Context**
    ```bash
-   python mcp-global-rules/mcp.py autocontext
-   python mcp-global-rules/mcp.py recall "project"
+   python3 mcp-global-rules/mcp.py autocontext
+   python3 mcp-global-rules/mcp.py recall "project"
    ```
 
 2. **Read README.md as Single Source of Truth**
@@ -35,8 +49,8 @@ When the user says only **"dev"**, you MUST:
 
 3. **Identify Development Tasks**
    ```bash
-   python mcp-global-rules/mcp.py todos
-   python mcp-global-rules/mcp.py recall "tasks"
+   python3 mcp-global-rules/mcp.py todos
+   python3 mcp-global-rules/mcp.py recall "tasks"
    ```
 
 4. **Identify Gaps**
@@ -56,15 +70,15 @@ When the user says only **"go"**, you MUST:
 
 1. **Obtain Project Context** (same as "dev")
    ```bash
-   python mcp-global-rules/mcp.py autocontext
-   python mcp-global-rules/mcp.py recall "project"
+   python3 mcp-global-rules/mcp.py autocontext
+   python3 mcp-global-rules/mcp.py recall "project"
    ```
 
 2. **Read README.md as Single Source of Truth**
 
 3. **Identify Development Tasks and Gaps**
    ```bash
-   python mcp-global-rules/mcp.py todos
+   python3 mcp-global-rules/mcp.py todos
    ```
 
 4. **STOP - Do NOT Make Changes**
@@ -86,53 +100,53 @@ Before any coding task, you MUST run these commands:
 
 ```bash
 # Load context
-python mcp-global-rules/mcp.py autocontext
+python3 mcp-global-rules/mcp.py autocontext
 
 # Search for relevant code
-python mcp-global-rules/mcp.py search "your query"
+python3 mcp-global-rules/mcp.py search "your query"
 
 # Check what you know
-python mcp-global-rules/mcp.py recall "topic"
+python3 mcp-global-rules/mcp.py recall "topic"
 ```
 
 ## Before Making Changes
 
 ```bash
 # What will break?
-python mcp-global-rules/mcp.py impact file.py
+python3 mcp-global-rules/mcp.py impact file.py
 
 # Predict bugs
-python mcp-global-rules/mcp.py predict-bugs file.py
+python3 mcp-global-rules/mcp.py predict-bugs file.py
 ```
 
 ## After Making Changes
 
 ```bash
 # Code review
-python mcp-global-rules/mcp.py review file.py
+python3 mcp-global-rules/mcp.py review file.py
 
 # Security check  
-python mcp-global-rules/mcp.py security file.py
+python3 mcp-global-rules/mcp.py security file.py
 
 # Generate tests
-python mcp-global-rules/mcp.py test-gen file.py --impl
+python3 mcp-global-rules/mcp.py test-gen file.py --impl
 ```
 
 ## Remember Important Information
 
 ```bash
 # Store knowledge for later
-python mcp-global-rules/mcp.py remember "key" "value"
+python3 mcp-global-rules/mcp.py remember "key" "value"
 
 # Example: remember file locations
-python mcp-global-rules/mcp.py remember "auth_handler" "src/auth/handler.py"
+python3 mcp-global-rules/mcp.py remember "auth_handler" "src/auth/handler.py"
 ```
 
 ## Recall Knowledge
 
 ```bash
 # Search memories
-python mcp-global-rules/mcp.py recall "authentication"
+python3 mcp-global-rules/mcp.py recall "authentication"
 ```
 
 ---
