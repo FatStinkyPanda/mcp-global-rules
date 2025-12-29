@@ -3,24 +3,79 @@
 MCP Tools Runner
 ================
 Single entry point for all MCP AI enhancement tools.
+
+Works correctly regardless of:
+- How it's invoked (relative path, absolute path, symlink)
+- Current working directory
+- Installation location in project
 """
 
+import os
 import sys
 from pathlib import Path
 
-# Add scripts directory to path for imports
-SCRIPT_DIR = Path(__file__).parent
-if str(SCRIPT_DIR / "scripts") not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
+# =============================================================================
+# CRITICAL: Resolve the ACTUAL location of this script
+# =============================================================================
+
+def get_mcp_root():
+    """
+    Get the absolute path to the mcp-global-rules directory.
+    Handles symlinks, relative paths, and various invocation methods.
+    """
+    # Method 1: Use __file__ (works in most cases)
+    if '__file__' in dir():
+        script_path = Path(__file__).resolve()
+        return script_path.parent
+    
+    # Method 2: Use sys.argv[0] (when __file__ isn't available)
+    if sys.argv:
+        script_path = Path(sys.argv[0]).resolve()
+        if script_path.name == 'mcp.py':
+            return script_path.parent
+    
+    # Method 3: Search common locations
+    cwd = Path.cwd()
+    
+    # Check if mcp-global-rules is in current directory
+    if (cwd / 'mcp-global-rules' / 'mcp.py').exists():
+        return cwd / 'mcp-global-rules'
+    
+    # Check if we're inside mcp-global-rules
+    if (cwd / 'mcp.py').exists() and (cwd / 'scripts').exists():
+        return cwd
+    
+    # Check parent directories
+    for parent in cwd.parents:
+        if (parent / 'mcp-global-rules' / 'mcp.py').exists():
+            return parent / 'mcp-global-rules'
+    
+    return None
+
+
+# Get MCP root and add to path
+MCP_ROOT = get_mcp_root()
+
+if MCP_ROOT is None:
+    print("[FAIL] Cannot find mcp-global-rules directory")
+    print("Make sure you're running from a project with mcp-global-rules installed")
+    sys.exit(1)
+
+# Add MCP root to path for imports
+if str(MCP_ROOT) not in sys.path:
+    sys.path.insert(0, str(MCP_ROOT))
+
+# Store for other modules to use
+os.environ['MCP_ROOT'] = str(MCP_ROOT)
 
 
 def show_help():
     """Show help message."""
     print("""
-MCP AI Enhancement Tools (45 Commands)
+MCP AI Enhancement Tools (48 Commands)
 =======================================
 
-Usage: python mcp.py <command> [args...]
+Usage: python3 mcp-global-rules/mcp.py <command> [args...]
 
 Code Quality:
     review [path] [--strict]    Code review automation
@@ -157,7 +212,10 @@ def main():
     module_name = COMMANDS[command]
     
     try:
+        # Import the module
         module = __import__(f'scripts.{module_name}', fromlist=[module_name])
+        
+        # Update sys.argv for the module
         sys.argv = [f'scripts/{module_name}.py'] + args
         
         if hasattr(module, 'main'):
@@ -168,12 +226,15 @@ def main():
             
     except ImportError as e:
         print(f"[FAIL] Could not import {module_name}: {e}")
+        print(f"MCP_ROOT: {MCP_ROOT}")
+        print(f"sys.path: {sys.path[:3]}")
         return 1
     except Exception as e:
         print(f"[FAIL] Error running {command}: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
 
 
 if __name__ == "__main__":
     sys.exit(main())
-

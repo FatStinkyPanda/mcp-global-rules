@@ -4,17 +4,22 @@
 
 ---
 
-## IMPORTANT: Python Command
+## IMPORTANT: How to Run MCP Commands
 
-Use `python3` on Linux/Mac or `python` on Windows. If one fails, try the other:
+Find the mcp.py file in the project and run with python3:
 
 ```bash
-# Linux/Mac
-python3 mcp-global-rules/mcp.py <command>
+# First, find where mcp-global-rules is installed
+find . -name "mcp.py" -path "*/mcp-global-rules/*" 2>/dev/null
 
-# Windows
-python mcp-global-rules/mcp.py <command>
+# Then run commands using the full path, for example:
+python3 ./mcp-global-rules/mcp.py <command>
+
+# Or if installed elsewhere:
+python3 /path/to/mcp-global-rules/mcp.py <command>
 ```
+
+The mcp.py script will auto-detect its location and work correctly.
 
 ---
 
@@ -36,10 +41,14 @@ Do NOT use emojis or icons in any code unless explicitly requested by the user o
 
 When the user says only **"dev"**, you MUST:
 
-1. **Obtain Project Context**
+1. **Find and Run MCP Tools**
    ```bash
-   python3 mcp-global-rules/mcp.py autocontext
-   python3 mcp-global-rules/mcp.py recall "project"
+   # Find mcp.py location
+   MCP=$(find . -name "mcp.py" -path "*/mcp-global-rules/*" 2>/dev/null | head -1)
+   
+   # Load context
+   python3 $MCP autocontext
+   python3 $MCP recall "project"
    ```
 
 2. **Read README.md as Single Source of Truth**
@@ -49,8 +58,8 @@ When the user says only **"dev"**, you MUST:
 
 3. **Identify Development Tasks**
    ```bash
-   python3 mcp-global-rules/mcp.py todos
-   python3 mcp-global-rules/mcp.py recall "tasks"
+   python3 $MCP todos
+   python3 $MCP recall "tasks"
    ```
 
 4. **Identify Gaps**
@@ -68,17 +77,18 @@ When the user says only **"dev"**, you MUST:
 
 When the user says only **"go"**, you MUST:
 
-1. **Obtain Project Context** (same as "dev")
+1. **Find and Run MCP Tools** (same as "dev")
    ```bash
-   python3 mcp-global-rules/mcp.py autocontext
-   python3 mcp-global-rules/mcp.py recall "project"
+   MCP=$(find . -name "mcp.py" -path "*/mcp-global-rules/*" 2>/dev/null | head -1)
+   python3 $MCP autocontext
+   python3 $MCP recall "project"
    ```
 
 2. **Read README.md as Single Source of Truth**
 
 3. **Identify Development Tasks and Gaps**
    ```bash
-   python3 mcp-global-rules/mcp.py todos
+   python3 $MCP todos
    ```
 
 4. **STOP - Do NOT Make Changes**
@@ -96,57 +106,66 @@ When the user says only **"go"**, you MUST:
 
 ## MANDATORY: Use MCP Tools
 
-Before any coding task, you MUST run these commands:
+Before any coding task, you MUST:
 
-```bash
-# Load context
-python3 mcp-global-rules/mcp.py autocontext
+1. **Find MCP location**
+   ```bash
+   MCP=$(find . -name "mcp.py" -path "*/mcp-global-rules/*" 2>/dev/null | head -1)
+   ```
 
-# Search for relevant code
-python3 mcp-global-rules/mcp.py search "your query"
+2. **Load context**
+   ```bash
+   python3 $MCP autocontext
+   ```
 
-# Check what you know
-python3 mcp-global-rules/mcp.py recall "topic"
-```
+3. **Search for relevant code**
+   ```bash
+   python3 $MCP search "your query"
+   ```
+
+4. **Check what you know**
+   ```bash
+   python3 $MCP recall "topic"
+   ```
 
 ## Before Making Changes
 
 ```bash
 # What will break?
-python3 mcp-global-rules/mcp.py impact file.py
+python3 $MCP impact file.py
 
 # Predict bugs
-python3 mcp-global-rules/mcp.py predict-bugs file.py
+python3 $MCP predict-bugs file.py
 ```
 
 ## After Making Changes
 
 ```bash
 # Code review
-python3 mcp-global-rules/mcp.py review file.py
+python3 $MCP review file.py
 
 # Security check  
-python3 mcp-global-rules/mcp.py security file.py
+python3 $MCP security file.py
 
 # Generate tests
-python3 mcp-global-rules/mcp.py test-gen file.py --impl
+python3 $MCP test-gen file.py --impl
 ```
 
 ## Remember Important Information
 
 ```bash
 # Store knowledge for later
-python3 mcp-global-rules/mcp.py remember "key" "value"
+python3 $MCP remember "key" "value"
 
 # Example: remember file locations
-python3 mcp-global-rules/mcp.py remember "auth_handler" "src/auth/handler.py"
+python3 $MCP remember "auth_handler" "src/auth/handler.py"
 ```
 
 ## Recall Knowledge
 
 ```bash
 # Search memories
-python3 mcp-global-rules/mcp.py recall "authentication"
+python3 $MCP recall "authentication"
 ```
 
 ---
