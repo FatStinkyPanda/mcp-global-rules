@@ -57,6 +57,12 @@ fi
 PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | cut -d' ' -f2 | cut -d'.' -f1,2)
 info "Python: $PYTHON_CMD ($PYTHON_VERSION)"
 
+if [ "$PYTHON_CMD" == "python" ]; then
+    PYTHON3_CMD="python"
+else
+    PYTHON3_CMD="python3"
+fi
+
 # Get script directory (where MCP package is)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(pwd)"
@@ -139,7 +145,7 @@ cat > "$PROJECT_ROOT/AI_AGENT_MCP.md" << 'EOF'
 
 ## Available Commands (48 total)
 
-Run with: `python mcp-global-rules/mcp.py <command>`
+Run with: `${PYTHON3_CMD} mcp-global-rules/mcp.py <command>`
 
 ### Before Coding
 ```bash
@@ -210,12 +216,12 @@ echo "  ✓ 6 git hooks (enforced)"
 echo "  ✓ AI agent instructions"
 echo ""
 echo "Usage:"
-echo "  python mcp-global-rules/mcp.py help"
-echo "  python mcp-global-rules/mcp.py <command>"
+echo "  ${PYTHON3_CMD} mcp-global-rules/mcp.py help"
+echo "  ${PYTHON3_CMD} mcp-global-rules/mcp.py <command>"
 echo ""
 echo "Quick start:"
-echo "  python mcp-global-rules/mcp.py autocontext"
-echo "  python mcp-global-rules/mcp.py search \"your query\""
+echo "  ${PYTHON3_CMD} mcp-global-rules/mcp.py autocontext"
+echo "  ${PYTHON3_CMD} mcp-global-rules/mcp.py search \"your query\""
 echo ""
 
 exit 0

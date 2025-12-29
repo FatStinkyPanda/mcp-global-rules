@@ -15,7 +15,7 @@ import stat
 import sys
 from pathlib import Path
 
-from .utils import Console, find_project_root
+from .utils import Console, find_project_root, get_mcp_root
 
 
 def install_git_hooks(project_root: Path = None) -> int:
@@ -23,7 +23,7 @@ def install_git_hooks(project_root: Path = None) -> int:
     project_root = project_root or find_project_root() or Path.cwd()
     
     # Find MCP installation
-    mcp_root = Path(__file__).parent.parent
+    mcp_root = get_mcp_root()
     hooks_source = mcp_root / '.git-hooks'
     
     if not hooks_source.exists():
@@ -60,7 +60,7 @@ def install_git_hooks(project_root: Path = None) -> int:
 
 def install_shell_profile() -> int:
     """Install shell startup script to user profile."""
-    mcp_root = Path(__file__).parent.parent
+    mcp_root = get_mcp_root()
     
     home = Path.home()
     

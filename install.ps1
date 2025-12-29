@@ -155,7 +155,7 @@ $AIInstructions = @"
 
 ## Available Commands (48 total)
 
-Run with: ``python mcp-global-rules/mcp.py <command>``
+Run with: ``$PythonCmd mcp-global-rules/mcp.py <command>``
 
 ### Before Coding
 ```bash
@@ -227,10 +227,10 @@ Write-Host "  ✓ 6 git hooks (enforced)"
 Write-Host "  ✓ AI agent instructions"
 Write-Host ""
 Write-Host "Usage:"
-Write-Host "  python mcp-global-rules/mcp.py help"
-Write-Host "  python mcp-global-rules/mcp.py <command>"
+Write-Host "  $PythonCmd mcp-global-rules/mcp.py help"
+Write-Host "  $PythonCmd mcp-global-rules/mcp.py <command>"
 Write-Host ""
 Write-Host "Quick start:"
-Write-Host "  python mcp-global-rules/mcp.py autocontext"
-Write-Host "  python mcp-global-rules/mcp.py search `"your query`""
+Write-Host "  $PythonCmd mcp-global-rules/mcp.py autocontext"
+Write-Host "  $PythonCmd mcp-global-rules/mcp.py search `"your query`""
 Write-Host ""

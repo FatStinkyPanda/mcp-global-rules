@@ -3,7 +3,11 @@
 # Source in .bashrc or .zshrc: source ~/.mcp/scripts/mcp-startup.sh
 
 # MCP installation path
-MCP_PATH="$HOME/.mcp"
+# Defaults to directory containing this script's parent
+if [ -z "$MCP_HOME" ]; then
+    MCP_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+fi
+MCP_PATH="$MCP_HOME"
 
 # Check if MCP is installed
 mcp_installed() {

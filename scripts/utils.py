@@ -128,19 +128,62 @@ def find_project_root(start: Path = None) -> Optional[Path]:
     Returns:
         Project root path or None
     """
+    # 1. Try environment variable set by mcp.py
+    mcp_root_env = os.environ.get('MCP_ROOT')
+    
     if start is None:
         start = Path.cwd()
     
     markers = ['.git', 'pyproject.toml', 'setup.py', 'setup.cfg', '.mcp']
     
+    # helper to check markers
+    def check_dir(d: Path) -> bool:
+        for marker in markers:
+            if (d / marker).exists():
+                return True
+        return False
+
+    # A. Search up from the MCP package location first (Strongest signal)
+    # If mcp-global-rules is inside a project, that's likely the project we want.
+    if mcp_root_env:
+        mcp_root = Path(mcp_root_env).resolve()
+        
+        # Check parent of mcp-global-rules (common case)
+        if check_dir(mcp_root.parent):
+            return mcp_root.parent
+            
+        # Search up from mcp_root
+        curr = mcp_root.parent
+        while curr != curr.parent:
+            if check_dir(curr):
+                return curr
+            curr = curr.parent
+
+    # B. Search up from start (cwd)
+    if start is None:
+        start = Path.cwd()
+    
     current = Path(start).resolve()
     while current != current.parent:
-        for marker in markers:
-            if (current / marker).exists():
-                return current
+        if check_dir(current):
+            return current
         current = current.parent
     
+    # C. Last resort: if we have mcp_root, return its parent even without markers
+    if mcp_root_env:
+        return Path(mcp_root_env).resolve().parent
+    
     return None
+
+
+def get_mcp_root() -> Path:
+    """Get the absolute path to the mcp-global-rules package directory."""
+    mcp_root_env = os.environ.get('MCP_ROOT')
+    if mcp_root_env:
+        return Path(mcp_root_env).resolve()
+    
+    # Fallback to __file__ resolution
+    return Path(__file__).resolve().parent.parent
 
 
 # =============================================================================

@@ -2,7 +2,10 @@
 # Add to your $PROFILE for auto-startup
 
 # MCP installation path
-$MCPPath = "$env:USERPROFILE\.mcp"
+if (-not $env:MCP_HOME) {
+    $env:MCP_HOME = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+}
+$MCPPath = $env:MCP_HOME
 
 # Check if MCP is installed
 function Test-MCPInstalled {

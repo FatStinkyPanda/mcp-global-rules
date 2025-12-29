@@ -18,7 +18,7 @@ from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, field, asdict
 import hashlib
 
-from .utils import Console, find_python_files
+from .utils import Console, find_python_files, find_project_root
 from .embeddings import embed_text, embed_texts, cosine_similarity, embedding_dimension
 
 
@@ -62,7 +62,12 @@ class VectorStore:
     """Local vector store for semantic code search."""
     
     def __init__(self, index_path: Optional[Path] = None):
-        self.index_path = index_path or Path(".mcp/vector_index")
+        if index_path is None:
+            root = find_project_root() or Path.cwd()
+            self.index_path = root / ".mcp" / "vector_index"
+        else:
+            self.index_path = Path(index_path)
+            
         self.chunks: Dict[str, CodeChunk] = {}
         self.embeddings: Dict[str, List[float]] = {}
         self._faiss_index = None
@@ -350,7 +355,8 @@ def main():
     store = VectorStore()
     
     if command == 'index':
-        path = Path(args[1]) if len(args) > 1 else Path.cwd()
+        root = find_project_root() or Path.cwd()
+        path = Path(args[1]) if len(args) > 1 else root
         store.index_codebase(path)
     
     elif command == 'search':
