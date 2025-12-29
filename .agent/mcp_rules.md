@@ -2,6 +2,40 @@
 
 > Auto-copy this to `.agent/` or your AI agent's rules directory
 
+## CORE PRINCIPLES
+
+### Fix Properly, Never Disable
+
+Fix properly, never disable, never restrict or reduce capabilities of this program. ALWAYS FIX CORRECTLY AND FULLY AND COMPLETELY TO MAKE EVERYTHING WORK FULLY! All integrations, improvements, and adaptations must utilize what already exists and add on to it, never bypassing anything that we have intentionally developed and integrated.
+
+### No Emojis in Code
+
+Do NOT use emojis or icons in any code unless explicitly requested by the user or defined in README.md.
+
+---
+
+## TRIGGER COMMANDS
+
+### "dev" - Autonomous Development
+
+When user says only **"dev"**:
+1. Load context: `mcp autocontext`
+2. Read README.md (single source of truth)
+3. Identify tasks: `mcp todos`
+4. Find gaps in implementation
+5. Continue development AUTONOMOUSLY - no human intervention
+
+### "go" - Context and Suggestions
+
+When user says only **"go"**:
+1. Load context: `mcp autocontext`
+2. Read README.md (single source of truth)
+3. Identify tasks: `mcp todos`
+4. **STOP - DO NOT make changes**
+5. Present suggestions and wait for user direction
+
+---
+
 ## Required Behavior
 
 1. **Before ANY coding task**, run:
@@ -31,22 +65,7 @@
    python mcp-global-rules/mcp.py recall "<query>"
    ```
 
-## Command Shortcuts
-
-Create alias `mcp` for convenience:
-```bash
-alias mcp="python mcp-global-rules/mcp.py"
-```
-
-Then use:
-```bash
-mcp autocontext
-mcp search "query"
-mcp remember "key" "value"
-mcp recall "query"
-mcp predict-bugs .
-mcp review .
-```
+---
 
 ## Enforced via Git Hooks
 
@@ -61,3 +80,5 @@ These checks run automatically and WILL BLOCK commits that:
 - Ignore predict-bugs warnings
 - Bypass pre-commit hooks (--no-verify)
 - Forget to use remember/recall
+- Use emojis in code
+- Disable or bypass existing functionality

@@ -2,6 +2,84 @@
 
 > Add this file to your AI agent's rules/instructions to enable MCP integration.
 
+---
+
+## CORE PRINCIPLES
+
+### Fix Properly, Never Disable
+
+Fix properly, never disable, never restrict or reduce capabilities of this program. ALWAYS FIX CORRECTLY AND FULLY AND COMPLETELY TO MAKE EVERYTHING WORK FULLY! All integrations, improvements, and adaptations must utilize what already exists and add on to it, never bypassing anything that we have intentionally developed and integrated. Unless explicitly requested by the user for a specific change that goes against this, you must always obey these rules.
+
+### No Emojis or Icons in Code
+
+Do NOT use emojis or icons in any code unless explicitly requested by the user or defined in the README.md file. Emojis and icons cause code errors and are not always the same between devices.
+
+---
+
+## TRIGGER COMMANDS
+
+### "dev" - Autonomous Development Mode
+
+When the user says only **"dev"**, you MUST:
+
+1. **Obtain Project Context**
+   ```bash
+   python mcp-global-rules/mcp.py autocontext
+   python mcp-global-rules/mcp.py recall "project"
+   ```
+
+2. **Read README.md as Single Source of Truth**
+   - README.md defines what the project should do
+   - README.md contains the development roadmap
+   - All decisions must align with README.md
+
+3. **Identify Development Tasks**
+   ```bash
+   python mcp-global-rules/mcp.py todos
+   python mcp-global-rules/mcp.py recall "tasks"
+   ```
+
+4. **Identify Gaps**
+   - Compare README.md goals vs current implementation
+   - Check for missing features
+   - Check for incomplete integrations
+
+5. **Continue Development Autonomously**
+   - Implement next priority task from README.md
+   - NO human intervention required
+   - Follow "fix properly" principle
+   - Commit progress incrementally
+
+### "go" - Context and Suggestions Mode
+
+When the user says only **"go"**, you MUST:
+
+1. **Obtain Project Context** (same as "dev")
+   ```bash
+   python mcp-global-rules/mcp.py autocontext
+   python mcp-global-rules/mcp.py recall "project"
+   ```
+
+2. **Read README.md as Single Source of Truth**
+
+3. **Identify Development Tasks and Gaps**
+   ```bash
+   python mcp-global-rules/mcp.py todos
+   ```
+
+4. **STOP - Do NOT Make Changes**
+   - Present findings to user
+   - List suggested next steps
+   - Wait for user direction on which task to proceed with
+
+5. **Provide Suggestions**
+   - What needs to be done
+   - Priority order
+   - Estimated complexity
+   - Ask user which to proceed with
+
+---
+
 ## MANDATORY: Use MCP Tools
 
 Before any coding task, you MUST run these commands:
@@ -48,7 +126,6 @@ python mcp-global-rules/mcp.py remember "key" "value"
 
 # Example: remember file locations
 python mcp-global-rules/mcp.py remember "auth_handler" "src/auth/handler.py"
-python mcp-global-rules/mcp.py remember "db_config" "Uses PostgreSQL, config in src/config/db.py"
 ```
 
 ## Recall Knowledge
@@ -56,8 +133,9 @@ python mcp-global-rules/mcp.py remember "db_config" "Uses PostgreSQL, config in 
 ```bash
 # Search memories
 python mcp-global-rules/mcp.py recall "authentication"
-python mcp-global-rules/mcp.py recall "database"
 ```
+
+---
 
 ## Available Commands (48)
 
@@ -70,6 +148,8 @@ python mcp-global-rules/mcp.py recall "database"
 | Testing | `test-gen`, `test`, `test-coverage` |
 | Indexing | `index-all`, `todos`, `git-history` |
 
+---
+
 ## Git Hooks (Automatic)
 
 These run automatically on git operations:
@@ -77,14 +157,15 @@ These run automatically on git operations:
 - **post-commit**: Updates learning and indexes
 - **post-checkout**: Warms context for new branch
 
-## Key Principle
+---
 
-**ALWAYS use MCP tools.** They provide context, prevent bugs, and learn from your work.
+## Summary
 
-```bash
-# Quick workflow
-mcp autocontext              # Before coding
-mcp impact file.py           # Before changes
-mcp review file.py           # After changes
-mcp remember "key" "value"   # Save learnings
-```
+| Trigger | Behavior |
+|---------|----------|
+| `dev` | Autonomous development, no intervention needed |
+| `go` | Context + suggestions, wait for user direction |
+
+**README.md is the single source of truth for project development.**
+
+**ALWAYS use MCP tools. They provide context, prevent bugs, and learn from your work.**
