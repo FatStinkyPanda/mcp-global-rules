@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "project": "",
+  "author": "",
+  "created": "",
+  "memory": {
+    "type": "local",
+    "path": ".mcp/memory",
+    "openmemory_url": "http://localhost:8082"
+  },
+  "compliance": {
+    "commit_threshold": 80,
+    "push_threshold": 70,
+    "target": 90
+  },
+  "hooks": {
+    "pre_commit": true,
+    "commit_msg": true,
+    "pre_push": true,
+    "block_on_failure": false
+  },
+  "rules": {
+    "no_emojis": true,
+    "fix_properly_never_disable": true,
+    "record_all_actions": true,
+    "readme_is_source_of_truth": true
+  },
+  "reserved_ports": [8080, 8081, 8082, 8083, 8888, 9000],
+  "safe_port_range": {"min": 3000, "max": 5999}
+}
